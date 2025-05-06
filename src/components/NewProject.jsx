@@ -3,33 +3,53 @@ import { useRef } from 'react';
 import Input from './Input.jsx';
 import Modal from './Modal.jsx';
 
-export default function NewProject({ onAdd, onCancel }) {
+export default function NewProject({ setProjects, cancel }) {
   const modal = useRef();
 
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
 
-  function handleSave() {
-    const enteredTitle = title.current.value;
-    const enteredDescription = description.current.value;
-    const enteredDueDate = dueDate.current.value;
+  // function handleSave() {
+  //   const enteredTitle = title.current.value;
+  //   const enteredDescription = description.current.value;
+  //   const enteredDueDate = dueDate.current.value;
+
+  //   if (
+  //     enteredTitle.trim() === '' ||
+  //     enteredDescription.trim() === '' ||
+  //     enteredDueDate.trim() === ''
+  //   ) {
+  //     modal.current.open();
+  //     return;
+  //   }
+
+  //   onAdd({
+  //     title: enteredTitle,
+  //     description: enteredDescription,
+  //     dueDate: enteredDueDate,
+  //   });
+  // }
+
+  const saveInputs = () => {
+    const inputData = {
+      title: title.current.value,
+      description: description.current.value,
+      dueDate: dueDate.current.value,
+      id: Date.now(),
+    };
 
     if (
-      enteredTitle.trim() === '' ||
-      enteredDescription.trim() === '' ||
-      enteredDueDate.trim() === ''
+      inputData.title.trim() === '' ||
+      inputData.description.trim() === '' ||
+      inputData.dueDate.trim() === ''
     ) {
       modal.current.open();
       return;
     }
 
-    onAdd({
-      title: enteredTitle,
-      description: enteredDescription,
-      dueDate: enteredDueDate,
-    });
-  }
+    setProjects(preProjects => [...preProjects, inputData]);
+  };
 
   return (
     <>
@@ -42,12 +62,13 @@ export default function NewProject({ onAdd, onCancel }) {
           Please make sure you provide a valid value for every input field.
         </p>
       </Modal>
+
       <div className="w-[35rem] mt-16">
         <menu className="flex items-center justify-end gap-4 my-4">
           <li>
             <button
+              onClick={cancel}
               className="text-stone-800 hover:text-stone-950"
-              onClick={onCancel}
             >
               Cancel
             </button>
@@ -55,16 +76,16 @@ export default function NewProject({ onAdd, onCancel }) {
           <li>
             <button
               className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950"
-              onClick={handleSave}
+              onClick={saveInputs}
             >
               Save
             </button>
           </li>
         </menu>
         <div>
-          <Input type="text" ref={title} label="Title" />
-          <Input ref={description} label="Description" textarea />
-          <Input type="date" ref={dueDate} label="Due Date" />
+          <Input label="Title" type="text" ref={title} />
+          <Input label="Description" ref={description} textarea />
+          <Input label="Due Date" type="date" ref={dueDate} />
         </div>
       </div>
     </>

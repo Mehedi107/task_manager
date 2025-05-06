@@ -5,62 +5,75 @@ import NoProjectSelected from './components/NoProjectSelected.jsx';
 import ProjectsSidebar from './components/ProjectsSidebar.jsx';
 
 function App() {
-  const [projectsState, setProjectsState] = useState({
-    selectedProjectId: undefined,
-    projects: [],
-  });
+  // const [projectsState, setProjectsState] = useState({
+  //   selectedProjectId: undefined,
+  //   projects: [],
+  // });
 
-  function handleStartAddProject() {
-    setProjectsState((prevState) => {
-      return {
-        ...prevState,
-        selectedProjectId: null,
-      };
-    });
-  }
+  // function handleStartAddProject() {
+  //   setProjectsState((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       selectedProjectId: null,
+  //     };
+  //   });
+  // }
 
-  function handleCancelAddProject() {
-    setProjectsState((prevState) => {
-      return {
-        ...prevState,
-        selectedProjectId: undefined,
-      };
-    });
-  }
+  // function handleCancelAddProject() {
+  //   setProjectsState((prevState) => {
+  //     return {
+  //       ...prevState,
+  //       selectedProjectId: undefined,
+  //     };
+  //   });
+  // }
 
-  function handleAddProject(projectData) {
-    setProjectsState((prevState) => {
-      const projectId = Math.random();
-      const newProject = {
-        ...projectData,
-        id: projectId,
-      };
+  // function handleAddProject(projectData) {
+  //   setProjectsState((prevState) => {
+  //     const projectId = Math.random();
+  //     const newProject = {
+  //       ...projectData,
+  //       id: projectId,
+  //     };
 
-      return {
-        ...prevState,
-        selectedProjectId: undefined,
-        projects: [...prevState.projects, newProject],
-      };
-    });
-  }
+  //     return {
+  //       ...prevState,
+  //       selectedProjectId: undefined,
+  //       projects: [...prevState.projects, newProject],
+  //     };
+  //   });
+  // }
 
-  let content;
+  // let content;
 
-  if (projectsState.selectedProjectId === null) {
-    content = (
-      <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
-    );
-  } else if (projectsState.selectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
-  }
+  // if (projectsState.selectedProjectId === null) {
+  //   content = (
+  //     <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
+  //   );
+  // } else if (projectsState.selectedProjectId === undefined) {
+  //   content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
+  // }
+
+  const [projectState, setProjectState] = useState(false);
+  const [projects, setProjects] = useState([]);
+
+  const addNewProject = () => setProjectState(true);
+  const cancelProject = () => setProjectState(false);
 
   return (
     <main className="h-screen my-8 flex gap-8">
       <ProjectsSidebar
-        onStartAddProject={handleStartAddProject}
-        projects={projectsState.projects}
+        addProject={addNewProject}
+        projects={projects}
+        // onStartAddProject={handleStartAddProject}
+        // projects={projectsState.projects}
       />
-      {content}
+      {projectState ? (
+        <NewProject setProjects={setProjects} cancel={cancelProject} />
+      ) : (
+        <NoProjectSelected addProject={addNewProject} />
+      )}
+      {/* {content} */}
     </main>
   );
 }
