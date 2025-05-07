@@ -7,19 +7,18 @@ import SelectedProject from './components/SelectedProject.jsx';
 
 function App() {
   const [projectState, setProjectState] = useState(false);
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [projects, setProjects] = useState({
+    projects: [],
+    selectedProject: undefined,
+    tasks: [],
+  });
 
   const addNewProject = () => setProjectState(true);
   const cancelProject = () => setProjectState(false);
-  const selectProject = id => {
-    const selectedProject = projects.find(project => id === project.id);
-    setSelectedProject(selectedProject);
-  };
 
   let content = <NoProjectSelected addProject={addNewProject} />;
 
-  if (projectState && !selectedProject) {
+  if (projectState && !projects.selectedProject) {
     content = (
       <NewProject
         setProjects={setProjects}
@@ -29,14 +28,12 @@ function App() {
     );
   }
 
-  if (selectedProject) {
+  if (projects.selectedProject) {
     content = (
       <SelectedProject
-        project={selectedProject}
         setProjects={setProjects}
         projects={projects}
         setProjectState={setProjectState}
-        setSelectedProject={setSelectedProject}
       />
     );
   }
@@ -46,8 +43,7 @@ function App() {
       <ProjectsSidebar
         addProject={addNewProject}
         projects={projects}
-        selectProject={selectProject}
-        selectedProject={selectedProject}
+        setProjects={setProjects}
       />
 
       {content}

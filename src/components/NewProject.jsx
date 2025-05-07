@@ -27,7 +27,12 @@ export default function NewProject({ setProjects, setProjectState, cancel }) {
       return;
     }
 
-    setProjects(preProjects => [...preProjects, inputData]);
+    setProjects(prevProjects => {
+      return {
+        ...prevProjects,
+        projects: [inputData, ...prevProjects.projects],
+      };
+    });
     setProjectState(false);
   };
 
