@@ -1,3 +1,5 @@
+import NewTask from './NewTask';
+
 const SelectedProject = ({
   project,
   projects,
@@ -31,7 +33,7 @@ const SelectedProject = ({
 
         <hr className="my-3 h-1 bg-stone-400" />
 
-        <div>task</div>
+        <NewTask />
       </header>
     </div>
   );
