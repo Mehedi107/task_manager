@@ -83,6 +83,7 @@ function App() {
         addProject={addNewProject}
         projects={projects}
         selectProject={selectProject}
+        selectedProject={selectedProject}
       />
 
       {content}
