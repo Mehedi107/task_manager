@@ -3,33 +3,12 @@ import { useRef } from 'react';
 import Input from './Input.jsx';
 import Modal from './Modal.jsx';
 
-export default function NewProject({ setProjects, cancel }) {
+export default function NewProject({ setProjects, setProjectState, cancel }) {
   const modal = useRef();
 
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
-
-  // function handleSave() {
-  //   const enteredTitle = title.current.value;
-  //   const enteredDescription = description.current.value;
-  //   const enteredDueDate = dueDate.current.value;
-
-  //   if (
-  //     enteredTitle.trim() === '' ||
-  //     enteredDescription.trim() === '' ||
-  //     enteredDueDate.trim() === ''
-  //   ) {
-  //     modal.current.open();
-  //     return;
-  //   }
-
-  //   onAdd({
-  //     title: enteredTitle,
-  //     description: enteredDescription,
-  //     dueDate: enteredDueDate,
-  //   });
-  // }
 
   const saveInputs = () => {
     const inputData = {
@@ -49,6 +28,7 @@ export default function NewProject({ setProjects, cancel }) {
     }
 
     setProjects(preProjects => [...preProjects, inputData]);
+    setProjectState(false);
   };
 
   return (

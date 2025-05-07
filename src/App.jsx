@@ -6,55 +6,6 @@ import ProjectsSidebar from './components/ProjectsSidebar.jsx';
 import SelectedProject from './components/SelectedProject.jsx';
 
 function App() {
-  // const [projectsState, setProjectsState] = useState({
-  //   selectedProjectId: undefined,
-  //   projects: [],
-  // });
-
-  // function handleStartAddProject() {
-  //   setProjectsState((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       selectedProjectId: null,
-  //     };
-  //   });
-  // }
-
-  // function handleCancelAddProject() {
-  //   setProjectsState((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       selectedProjectId: undefined,
-  //     };
-  //   });
-  // }
-
-  // function handleAddProject(projectData) {
-  //   setProjectsState((prevState) => {
-  //     const projectId = Math.random();
-  //     const newProject = {
-  //       ...projectData,
-  //       id: projectId,
-  //     };
-
-  //     return {
-  //       ...prevState,
-  //       selectedProjectId: undefined,
-  //       projects: [...prevState.projects, newProject],
-  //     };
-  //   });
-  // }
-
-  // let content;
-
-  // if (projectsState.selectedProjectId === null) {
-  //   content = (
-  //     <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
-  //   );
-  // } else if (projectsState.selectedProjectId === undefined) {
-  //   content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
-  // }
-
   const [projectState, setProjectState] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -63,18 +14,31 @@ function App() {
   const cancelProject = () => setProjectState(false);
   const selectProject = id => {
     const selectedProject = projects.find(project => id === project.id);
-    // console.log(selectedProject);
     setSelectedProject(selectedProject);
   };
 
   let content = <NoProjectSelected addProject={addNewProject} />;
 
   if (projectState && !selectedProject) {
-    content = <NewProject setProjects={setProjects} cancel={cancelProject} />;
+    content = (
+      <NewProject
+        setProjects={setProjects}
+        setProjectState={setProjectState}
+        cancel={cancelProject}
+      />
+    );
   }
 
   if (selectedProject) {
-    content = <SelectedProject project={selectedProject} />;
+    content = (
+      <SelectedProject
+        project={selectedProject}
+        setProjects={setProjects}
+        projects={projects}
+        setProjectState={setProjectState}
+        setSelectedProject={setSelectedProject}
+      />
+    );
   }
 
   return (
